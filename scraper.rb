@@ -24,13 +24,14 @@ class Collection
     
     def saveCollection
       @titles.each do |t|
-      data = {
-      collection: @name,
-      collectionurl: @url,
-      title: t.title,
-      titleurl: t.url
-      }
-      ScraperWiki::save_sqlite([], data)
+        data = {
+        collection: @name,
+        collectionurl: @url,
+        title: t.title,
+        titleurl: t.url
+        }
+        ScraperWiki::save_sqlite([], data)
+      end
     end
 end
 
