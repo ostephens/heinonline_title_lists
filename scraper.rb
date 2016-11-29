@@ -2,26 +2,29 @@ require 'scraperwiki'
 require 'nokogiri'
 
 class Collection
-    def initialize(name,url)
+    def initialize(url)
         @url = url
-        @name = name
         @titles = []
     end
     
-    attr_reader :name, :url
-    attr_accessor :titles
+    attr_reader :url
+    attr_accessor :name,:titles
     
-    def getTitles
+    def getDetails
+        puts @url
         html = ScraperWiki.scrape(@url)
-        doc = Nokogiri::XML(html)
-        doc.xpath("//a[contains(@href, 'titles')]/").each do |t|
-            @titles.push(Title.new(t.inner_text.strip,t.href))
+        doc = Nokogiri::HTML(html)
+        doc.xpath("//h2").each do |n|
+          @name = n.inner_text.strip
+        end
+        doc.xpath("//a[contains(@href, 'titles')]").each do |t|
+            @titles.push(Ti.new(t.inner_text.strip,"http://home.heinonline.org"+t.attribute("href")))
         end
     end
 end
-  
-class Title
-  def initialise(title,url)
+
+class Ti
+  def initialize(title,url)
     @title = title
     @url = url
   end
@@ -30,7 +33,7 @@ class Title
   attr_accessor :coverage, :publisher, :issn, :publisher_url, :frequency, :notes
   
   def getDetails
-    
+    puts @url    
   end
 end
 
@@ -39,7 +42,10 @@ url = "http://home.heinonline.org/content/list-of-libraries/"
 puts url
 html = ScraperWiki.scrape(url)
 doc = Nokogiri::HTML(html)
-doc.xpath("//dd/a").each do |t|
-    puts "Testing"
-    puts t.attribute("href")
+doc.xpath("//dd/a[contains(@href,'titles')]").each do |t|
+    c = Collection.new("http://home.heinonline.org"+t.attribute("href").to_s)
+    c.getDetails
+    c.titles.each do |x|
+      x.getDetails
+    end
 end
