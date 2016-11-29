@@ -33,4 +33,10 @@ class Title
     
   end
 end
-  
+
+url = "http://home.heinonline.org/content/list-of-libraries/"
+html = ScraperWiki.scrape(url)
+doc = Nokogiri::HTML(html)
+doc.xpath("//dd/a").each do |t|
+  puts t.href
+end
