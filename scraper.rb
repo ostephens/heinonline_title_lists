@@ -21,6 +21,16 @@ class Collection
             @titles.push(Ti.new(t.inner_text.strip,"http://home.heinonline.org"+t.attribute("href")))
         end
     end
+    
+    def saveCollection
+      @titles.each do |t|
+      data = {
+      collection: @name,
+      collectionurl: @url,
+      title: t.title,
+      titleurl: t.url
+      }
+      ScraperWiki::save_sqlite([], data)
 end
 
 class Ti
@@ -48,4 +58,5 @@ doc.xpath("//dd/a[contains(@href,'titles')]").each do |t|
     c.titles.each do |x|
       x.getDetails
     end
+    c.saveCollection
 end
