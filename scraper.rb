@@ -38,9 +38,8 @@ puts "Starting..."
 url = "http://home.heinonline.org/content/list-of-libraries/"
 html = ScraperWiki.scrape(url)
 doc = Nokogiri::HTML(html)
-doc.xpath("//dd/a/").each do |t|
+doc.xpath("//dd/a").each do |t|
     puts "Testing"
-    puts t.inner_text
     puts t.attribute("href")
     
 end
