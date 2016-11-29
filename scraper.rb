@@ -36,6 +36,7 @@ end
 
 puts "Starting..."
 url = "http://home.heinonline.org/content/list-of-libraries/"
+puts url
 html = ScraperWiki.scrape(url)
 doc = Nokogiri::HTML(html)
 doc.xpath("//dd/a").each do |t|
