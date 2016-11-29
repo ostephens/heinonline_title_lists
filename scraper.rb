@@ -31,6 +31,7 @@ class Collection
       titleurl: t.url
       }
       ScraperWiki::save_sqlite([], data)
+    end
 end
 
 class Ti
