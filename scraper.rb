@@ -40,6 +40,6 @@ html = ScraperWiki.scrape(url)
 doc = Nokogiri::HTML(html)
 doc.xpath("//dd/a").each do |t|
     puts "Testing"
-    puts t.attribute("href")
+    #puts t.attribute("href")
     
 end
